@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-US">
+ <head>
+    <meta charset="utf-8">
+    <title>Typhoon Francisco Tracker</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            display: flex;
+            height: 100vh;
+            flex-direction: row;
+            align-items: stretch;
+        }
+        #side-panel {
+            padding-left: 5px;
+            padding-right: 5px;
+            flex-basis: 400px;
+            overflow-y: scroll;
+        }
+        /* make side-panel disappear when width is <1024px */
+        @media only screen and (max-width: 1024px) {
+            #side-panel {
+                display: none;
+            }
+        }
+        #map {
+            flex-grow: 1;
+            align-self: stretch;
+        }
+        button {
+            margin-bottom: 10px;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+        th,
+        td {
+            text-align: left;
+            padding: 16px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+ </head>
+ <body>
+    <main id="container">
+        
+        <div id="side-panel">
+            <h2>Typhoon Francisco 2019 Tracker</h2>
+            <button>Sort by max wind speeds</button>
+            <table>
+                <tr>
+                    <th>Saffir-Simpson scale</th>
+                    <th>Max wind speed (mph)</th>
+                    <th>Date</th>
+                </tr>
+            </table>
+        </div>
+        <div id="map"></div>
+    </main>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2huYW5uYWgiLCJhIjoiY2xhYXBxajU4MDQzMzNvbzI1MmszdzF4MCJ9.OXJwwoHGEkOOtTD05CwgUg';
+        
+        // create new map object
+        let map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/dark-v10', // style URL
+            zoom: 3.5, // starting zoom
+            center: [150, 33] // starting center
+        });
+
+        async function geojsonFetch() {
+            let response, francisco, japan, table;
+            response = await fetch('assets/francisco.geojson');
+            francisco = await response.json();
+            response = await fetch('assets/japan.json');
+            japan = await response.json();
+
+            // load data to the map as new layers and table on the side.
+            map.on('load', function loadingData() {
+                map.addSource('francisco', {
+                    type: 'geojson',
+                    data: francisco
+                });
+                map.addLayer({
+                    'id': 'francisco-layer',
+                    'type': 'circle',
+                    'source': 'francisco',
+                    'paint': {
+                    'circle-radius': 8,
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': 'white',
+                    'circle-color': ['match', ['get', 'saffir_simpson'],
+                                     'tropical depression', '#2d86b3', // blue fill if tropical depression
+                                     'tropical storm', '#3dcad1', // light blue fill if tropical storm
+                                     '#cfd169'] // yellow fill if category 1
+                }
+            });
+            map.addSource('japan', {
+                type: 'geojson',
+                data: japan
+            });
+            
+            map.addLayer({
+                'id': 'japan-layer',
+                'type': 'fill',
+                'source': 'japan',
+                'paint': {
+                    'fill-color': '#963247', // light green color fill
+                    'fill-opacity': 0.5
+                }
+            });
+        });
+        
+        // create table
+        table = document.getElementsByTagName("table")[0];
+        let row, cell1, cell2, cell3;
+        for (let i = 0; i < francisco.features.length; i++) {
+            // Create an empty <tr> element and add it to the 1st position of the table:
+            row = table.insertRow(-1);
+            cell1 = row.insertCell(0);
+            cell2 = row.insertCell(1);
+            cell3 = row.insertCell(2);
+            cell1.innerHTML = francisco.features[i].properties.saffir_simpson;
+            cell2.innerHTML = francisco.features[i].properties.max_windspd;
+            cell3.innerHTML = francisco.features[i].properties.date;
+        };
+        
+        let btn = document.getElementsByTagName("button")[0];
+        btn.addEventListener('click', sortTable);
+        
+        /// define the function to sort table
+        function sortTable(e) {
+            let table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementsByTagName("table")[0];
+            switching = true;
+            // Make a loop that will continue until no switching has been done:
+            while (switching) {
+                //start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /* Loop through all table rows (except the first, which contains
+                table headers): */
+                for (i = 1; i < (rows.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /* Get the two elements you want to compare,
+                    one from current row and one from the next: */
+                    x = parseFloat(rows[i].getElementsByTagName("td")[1].innerHTML);
+                    y = parseFloat(rows[i + 1].getElementsByTagName("td")[1].innerHTML);
+                    //check if the two rows should switch place:
+                    if (x < y) {
+                        // if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        }
+    };
+    
+    geojsonFetch();
+        
+    </script>
+ </body>   
+<html>   

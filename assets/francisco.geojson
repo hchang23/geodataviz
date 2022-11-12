@@ -1,0 +1,16 @@
+{"type":"FeatureCollection","features":[
+    {"type":"Feature","properties":{"saffir_simpson":"tropical depression","date":"8/1","max_windspd":30},"geometry":{"coordinates":[147.90201759263988,17.51030022494767],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical storm","date":"8/2","max_windspd":40},"geometry":{"coordinates":[145.7224642138458,19.799639431913278],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical storm","date":"8/3","max_windspd":45},"geometry":{"coordinates":[141.13692856479548,23.48218461629321],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical storm","date":"8/4","max_windspd":50},"geometry":{"coordinates":[137.6413029688121,26.718442133768647],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical storm","date":"8/5","max_windspd":65},"geometry":{"coordinates":[132.77440059118646,30.861098599262235],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"category 1","date":"8/5","max_windspd":85},"geometry":{"coordinates":[131.8845493094987,31.666920712155857],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"category 1","date":"8/5","max_windspd":70},"geometry":{"coordinates":[130.85257283567637,33.0154508830834],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical storm","date":"8/5","max_windspd":60},"geometry":{"coordinates":[129.71573722352662,34.62339125213151],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical storm","date":"8/6","max_windspd":50},"geometry":{"coordinates":[129.36661926321955,35.650208401655846],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical storm","date":"8/6","max_windspd":40},"geometry":{"coordinates":[128.5920856562056,38.15119841327771],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical depression","date":"8/6","max_windspd":40},"geometry":{"coordinates":[129.27520293016096,39.86847454228976],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical depression","date":"8/7","max_windspd":30},"geometry":{"coordinates":[134.70119345923848,42.26243792830519],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical depression","date":"8/8","max_windspd":20},"geometry":{"coordinates":[139.83357044132663,42.600326917357734],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical depression","date":"8/9","max_windspd":20},"geometry":{"coordinates":[141.83739601694043,42.60174949297587],"type":"Point"}},
+    {"type":"Feature","properties":{"saffir_simpson":"tropical depression","date":"8/10","max_windspd":10},"geometry":{"coordinates":[159.68082299210823,41.833428108963034],"type":"Point"}}]}
