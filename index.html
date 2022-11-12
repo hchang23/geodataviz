@@ -20,7 +20,7 @@
         #side-panel {
             padding-left: 5px;
             padding-right: 5px;
-            flex-basis: 400px;
+            flex-basis: 500px;
             overflow-y: scroll;
         }
         /* make side-panel disappear when width is <1024px */
@@ -30,8 +30,7 @@
             }
         }
         #map {
-            flex-grow: 1;
-            align-self: stretch;
+            flex-grow: 1;         
         }
         button {
             margin-bottom: 10px;
@@ -44,7 +43,7 @@
         }
         th,
         td {
-            text-align: left;
+            text-align: center;
             padding: 16px;
         }
         tr:nth-child(even) {
@@ -54,7 +53,7 @@
  </head>
  <body>
     <main id="container">
-        
+        <div id="map"></div>
         <div id="side-panel">
             <h2>Typhoon Francisco 2019 Tracker</h2>
             <button>Sort by max wind speeds</button>
@@ -66,7 +65,7 @@
                 </tr>
             </table>
         </div>
-        <div id="map"></div>
+        
     </main>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1Ijoic2huYW5uYWgiLCJhIjoiY2xhYXBxajU4MDQzMzNvbzI1MmszdzF4MCJ9.OXJwwoHGEkOOtTD05CwgUg';
@@ -76,7 +75,7 @@
             container: 'map', // container ID
             style: 'mapbox://styles/mapbox/dark-v10', // style URL
             zoom: 3.5, // starting zoom
-            center: [150, 33] // starting center
+            center: [147, 33] // starting center
         });
 
         async function geojsonFetch() {
@@ -136,7 +135,7 @@
             cell3.innerHTML = francisco.features[i].properties.date;
         };
         
-        let btn = document.getElementsByTagName("button")[0];
+        let btn = document.getElementsByTagName("button")[1];
         btn.addEventListener('click', sortTable);
         
         /// define the function to sort table
